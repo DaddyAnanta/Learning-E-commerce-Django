@@ -1,0 +1,149 @@
+{% load static %}
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+  <div class="container">
+    <!-- Brand logo and name -->
+    <a class="navbar-brand" href="{% url 'home' %}">
+      <img src="{% static "images/logo.webp" %}" alt="E-Shop Logo" width="40px"/><b> E-Shop</b>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    
+    <!-- Search Bar -->
+    <div class="search-bar ms-lg-4 d-none d-lg-block">
+      <form action="{% url 'searchproduct' %}" method="POST">
+        {% csrf_token %}
+        <div class="input-group">
+          <input type="search" required class="form-control border-0 shadow-sm" name="productsearch" id="searchproducts" placeholder="Search products">
+          <button type="submit" class="input-group-text bg-primary text-white border-0"><i class="fa fa-search"></i></button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Navbar Links and Icons -->
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <!-- Home -->
+        <li class="nav-item">
+          <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" href="{% url 'home' %}">
+            <i class="fa fa-home"></i> Home
+          </a>
+        </li>
+        
+        <!-- Collections -->
+        <li class="nav-item">
+          <a class="nav-link {% if request.resolver_match.url_name == 'collections' %}active{% endif %}" href="{% url 'collections' %}">
+            <i class="fa fa-th-large"></i> Collections
+          </a>
+        </li>
+        
+        <!-- Cart with item count -->
+        <li class="nav-item">
+          <a class="nav-link {% if request.resolver_match.url_name == 'cart' %}active{% endif %}" href="{% url 'cart' %}">
+            <i class="fa fa-shopping-cart"></i> Cart <span class="badge bg-warning text-dark">{{ request.user.product_id }}</span>
+          </a>
+        </li>
+        
+        <!-- Wishlist -->
+        <li class="nav-item">
+          <a class="nav-link {% if request.resolver_match.url_name == 'wishlist' %}active{% endif %}" href="{% url 'wishlist' %}">
+            <i class="fa fa-heart"></i> Wishlist
+          </a>
+        </li>
+
+        <!-- Authenticated User Menu -->
+        {% if request.user.is_authenticated %}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fa fa-user-circle"></i> {{ request.user }}
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="{% url 'myorders' %}">My Orders</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+          </ul>
+        </li>
+        {% else %}
+        <!-- Login/Register for unauthenticated users -->
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'loginpage' %}"><i class="fa fa-sign-in-alt"></i> Login</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'register' %}"><i class="fa fa-user-plus"></i> Register</a>
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Custom Styles -->
+<style>
+  /* Gradient Background */
+  .navbar {
+    background: linear-gradient(90deg, rgba(255, 111, 97, 1) 0%, rgba(255, 159, 64, 1) 100%);
+  }
+
+  /* Hover and Active States */
+  .navbar-nav .nav-link {
+    color: white !important;
+    font-weight: 500;
+    transition: color 0.3s ease;
+  }
+
+  .navbar-nav .nav-link:hover {
+    color: black!important;
+  }
+
+  .navbar-nav .nav-link.active {
+    color: black !important;
+    font-weight: bold;
+  }
+
+  /* Search Bar Styling */
+  .search-bar .form-control {
+    border-radius: 25px;
+    padding-left: 15px;
+  }
+
+  .search-bar .input-group-text {
+    background-color: #007bff;
+    color: white;
+    border-radius: 50%;
+  }
+
+  /* Dropdown Styling */
+  .dropdown-menu {
+    background-color: rgba(0, 0, 0, 0.8);
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    transition: opacity 0.3s ease;
+  }
+
+  .dropdown-menu .dropdown-item {
+    color: #ddd;
+  }
+
+  .dropdown-menu .dropdown-item:hover {
+    background-color: rgba(255, 159, 64, 0.2);
+  }
+
+  /* Cart Badge */
+  .navbar-nav .nav-item .badge {
+    font-size: 12px;
+    margin-left: 5px;
+  }
+
+  /* Small screen search bar */
+  .search-bar.d-none.d-lg-block {
+    display: none;
+  }
+
+  @media (max-width: 991px) {
+    .search-bar.d-none.d-lg-block {
+      display: block;
+      margin-top: 10px;
+    }
+  }
+</style>
