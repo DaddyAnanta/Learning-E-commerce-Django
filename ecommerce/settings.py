@@ -83,7 +83,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'djangoecom',
         'USER': 'Yuda',
-        'PASSWORD': 'zzzzzzzz',
+        'PASSWORD': 'password',
         'HOST': '127.0.0.1',  # This should be localhost for Unix socket
         'PORT': '3306',  # Default MySQL port   
     }
